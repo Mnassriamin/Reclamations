@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class CheckIfAdmin
 {
@@ -17,7 +18,7 @@ class CheckIfAdmin
     private function checkIfUserIsAdmin($user)
     {
         // Only allow access if the user is logged in AND is_admin=1
-        return ($user && $user->is_admin == 1);
+        return ($user && $user->user_type === User::TYPE_ADMIN);
     }
 
     /**

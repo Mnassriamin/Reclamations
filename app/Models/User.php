@@ -10,9 +10,13 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+
     use CrudTrait;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    public const TYPE_CUSTOMER = 0;
+    public const TYPE_ADMIN = 1;
+    public const TYPE_TECHNICIAN = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -47,8 +51,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function canAccessFilament(): bool
-       {
-            return $this->is_admin; // or any other logic
+    
+    public function complaints()
+        {
+            return $this->hasMany(Complaint::class, 'user_id');
         }
+    public function assignedComplaints()
+        {
+            return $this->hasMany(Complaint::class, 'technician_id');
+        } 
 }
