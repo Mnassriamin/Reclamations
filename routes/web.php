@@ -7,15 +7,18 @@ use App\Http\Controllers\TechnicianController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Str;
+use App\Models\Complaint;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    $complaints = Complaint::where('user_id', Auth::id())->latest()->get();
+    return view('dashboard', compact('complaints'));
+})->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

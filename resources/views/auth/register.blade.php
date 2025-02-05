@@ -1,52 +1,90 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('layouts.guest')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+@section('content')
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 450px; width: 100%;">
+        
+        <!-- Header -->
+        <div class="text-center">
+            <i class="fas fa-user-plus fa-3x text-primary"></i>
+            <h2 class="mt-3 fw-bold text-dark">Create an Account</h2>
+            <p class="text-muted">Sign up to submit and track complaints</p>
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <!-- Register Form -->
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label fw-bold">Full Name</label>
+                <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required autofocus>
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+            <!-- Email Address -->
+            <div class="mb-3">
+                <label for="email" class="form-label fw-bold">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label fw-bold">Password</label>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" required>
+                    <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label fw-bold">Confirm Password</label>
+                <div class="input-group">
+                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
+                    <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password_confirmation')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-user-check"></i> Register
+            </button>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+            <!-- Already Have an Account -->
+            <div class="text-center mt-3">
+                <a href="{{ route('login') }}" class="text-decoration-none text-primary fw-bold">Already have an account? Log in</a>
+            </div>
+        </form>
+    </div>
+</div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+<!-- Toggle Password Visibility -->
+<script>
+    function togglePassword(fieldId) {
+        let input = document.getElementById(fieldId);
+        let icon = event.currentTarget.querySelector("i");
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
+@endsection

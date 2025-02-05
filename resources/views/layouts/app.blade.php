@@ -7,53 +7,58 @@
 
     <title>{{ config('app.name', 'Reclamations TT') }}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
     
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Custom Styles -->
     <style>
         body {
-            font-family: 'Figtree', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
         }
         .navbar {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
         }
         .container-content {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 40px auto;
         }
         .card {
             border: none;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.1);
         }
         footer {
             margin-top: 40px;
             padding: 20px;
-            background: #f8f9fa;
+            background: #fff;
             text-align: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
-<!-- Bootstrap CSS -->
-
-@vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-light">
+<body>
 
     <!-- ✅ Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="{{ route('dashboard') }}">{{ config('app.name', 'Reclamations TT') }}</a>
+            <a class="navbar-brand text-primary" href="{{ route('dashboard') }}">
+                <i class="fas fa-clipboard-list"></i> Reclamations TT
+            </a>
 
-            <!-- Mobile Toggle -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Links -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     @auth
@@ -66,17 +71,18 @@
                         @elseif(Auth::user()->user_type === 2) <!-- Technician -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('technician.dashboard') }}">
-                                    <i class="fas fa-tools"></i> Reclamations
+                                    <i class="fas fa-tools"></i> Technician Dashboard
                                 </a>
                             </li>
                         @endif
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                               data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user"></i> Profile</a></li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
