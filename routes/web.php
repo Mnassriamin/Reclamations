@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\TechnicianController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -27,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/complaints/create', [ComplaintController::class, 'create'])->name('complaints.create');
     Route::post('/complaints', [ComplaintController::class, 'store'])->name('complaints.store');
     Route::get('/technician/dashboard', [TechnicianController::class, 'index'])->name('technician.dashboard')->middleware('tech');
+    Route::get('/complaints/{complaint}/messages', [MessageController::class, 'show'])->name('messages.show');
+Route::post('/complaints/{complaint}/messages', [MessageController::class, 'store'])->name('messages.store');
 });
 Route::get('admin/logout', function (Request $request) {
     // Perform the logout

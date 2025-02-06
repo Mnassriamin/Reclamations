@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-            $table->foreignId('technician_id')->nullable()->constrained()->onDelete('cascade'); 
-            $table->foreignId('complaint_id')->constrained()->onDelete('cascade'); 
-            $table->text('content'); 
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Sender (User or Technician)
+            $table->foreignId('complaint_id')->constrained()->onDelete('cascade'); // Related Complaint
+            $table->text('content'); // Message content
             $table->timestamps();
         });
+        
     }
 
     /**

@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.chat-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+.chat-box div {
+    max-width: 75%;
+    padding: 8px 12px;
+    border-radius: 10px;
+}

@@ -27,6 +27,12 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $user = Auth::user();
+        if ($user->user_type === 1) { // If user is an admin
+            return redirect()->route('backpack.dashboard');
+        } elseif ($user->user_type === 2) { // If user is a technician
+            return redirect()->route('technician.dashboard');
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
